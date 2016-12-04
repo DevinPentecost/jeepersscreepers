@@ -13,7 +13,7 @@ var roleTower = {
 function healNearestStructure(tower) {
 	//Find the closest critically damaged structure
 	var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-		filter: (structure) => structure.hits < structure.hitsMax / 3
+		filter: (structure) => (structure.hits < structure.hitsMax / 3) && (structure.structureType != STRUCTURE_WALL)
 	});
 
 	//Did we find anything?
