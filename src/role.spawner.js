@@ -43,28 +43,28 @@ var roleSpawner = {
         if(!enoughHarvesters){
             //We need to create one
             console.log("Need a Harvester");
-            newCreep = spawner.createCreep([MOVE, WORK, WORK, CARRY], "Harvester", {role: "harvester"});
+            newCreep = spawner.createCreep([MOVE, WORK, WORK, CARRY], {role: "harvester"});
         }else{
             //We can make other stuff
             //Enough upgraders?
             if(MINIMUM_UPGRADERS_PER_ROOM > totalUpgraders){
                 //Make one
                 console.log("Need a Upgrader");
-                newCreep = spawner.createCreep([MOVE, WORK, CARRY], "Upgrader", {role: "upgrader"});
+                newCreep = spawner.createCreep([MOVE, WORK, CARRY], {role: "upgrader"});
             }
             
             //Enough builders?
             if(MINIMUM_BUILDERS_PER_ROOM > totalBuilders){
                 //Make one
                 console.log("Need a Builder");
-                newCreep = spawner.createCreep([MOVE, WORK, CARRY, CARRY], "Builder", {role: "builder"});
+                newCreep = spawner.createCreep([MOVE, WORK, CARRY, CARRY], {role: "builder"});
             }
             
             //Enough repairers?
             if(MINIMUM_REPAIRERS_PER_ROOM > totalRepairers){
                 //Make one
                 console.log("Need a Repairer");
-                newCreep = spawner.createCreep([MOVE, WORK, CARRY, CARRY], "Repairer", {role: "repairer"});
+                newCreep = spawner.createCreep([MOVE, WORK, CARRY, CARRY], {role: "repairer"});
             }
         }
         
