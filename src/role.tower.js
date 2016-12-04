@@ -13,68 +13,70 @@ var roleTower = {
 };
 
 function getTowerMemory(tower) {
-	//Get the room for the tower
-	var towerRoom = tower.room;
-
-	//Get the memory from the room
-	var roomMemory = towerRoom.memory
 
 	//Does it have tower memory?
-	if (!(towerMemories in roomMemory)) {
+	if (!("towerMemories" in tower.room.memory)) {
 		//Room has no tower memories!
-		roomMemory.towerMemories = {}
+		console.log("Room has no tower memory!");
+		tower.room.memory.towerMemories = {}
 	}
-	//Get the tower memory
-	var towerMemories = roomMemory.towerMemories
 
 	//And get the memory for that specific tower
-	if (!(tower.id in towerMemories)){
+	if (!(tower.id in tower.room.memory.towerMemories)) {
 		//Tower does not have memory yet
+		console.log("Tower does not have memory yet!");
 		var newTowerMemory = {
-			healTarget: null,
-			attackTarget: null,
+			healTargetId: null,
+			attackTargetId: null,
 		};
-		towerMemories[tower.id] = towerMemory
+		setTowerMemory(tower, newTowerMemory);
 	}
 
 	//We can get and return the memory
-	var towerMemory = towerMemories[tower.id];
-	
+	var towerMemory = tower.room.memory.towerMemories[tower.id];
+
 	//Return it
-	return towerMemory	
+	return towerMemory
 }
 
 function setTowerMemory(tower, towerMemory) {
 	//Get the room for the tower
 	var towerRoom = tower.room;
 
-	//Get the memory from the room
-	var roomMemory = towerRoom.memory
-
 	//Set the memory for this tower
-	roomMemory.towerMemories[tower.id] = towerMemory
+	tower.room.memory.towerMemories[tower.id] = towerMemory
 }
 
 function healTargetStructure(tower) {
 	//The tower should have a target in it's memory
 	var towerMemory = getTowerMemory(tower);
-	var healTarget = towerMemory.healTarget;
+	var healTargetId = towerMemory.healTargetId;
 
 	//Does it have one?
-	if (healTarget) {
+	if (healTargetId) {
 		//Heal it
+		healTarget = Game.getObjectById(healTargetId)
 		tower.repair(healTarget);
 
 		//Is it healed up?
 		if (healTarget.hits > healTarget.hitsMax * HEAL_UPPER_LIMIT) {
 			//Set the memory to have no heal target
-			towerMemory.healTarget = null;
+			towerMemory.healTargetId = null;
 			setTowerMemory(tower, towerMemory);
 
 		}
 	} else {
 		//See if something needs healing
-		towerMemory.healTarget = findNearestDamagedStructure(tower);
+		var newHealTarget = findNearestDamagedStructure(tower);
+		if (newHealTarget) {
+			//Store it's ID
+			towerMemory.healTargetId = newHealTarget.id;
+		} else {
+			//No heal target
+			towerMemory.healTargetId = null
+		}
+
+		//Set the memory
 		setTowerMemory(tower, towerMemory);
 	}
 }
@@ -82,7 +84,7 @@ function healTargetStructure(tower) {
 function findNearestDamagedStructure(tower) {
 	//Look for them, ignoring walls
 	var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-		filter: (structure) => (structure.hits < structure.hitsMax / 3) && (structure.structureType != STRUCTURE_WALL)
+		filter: (structure) => (structure.hits < structure.hitsMax * HEAL_UPPER_LIMIT) && (structure.structureType != STRUCTURE_WALL)
 	});
 
 	//Return that
