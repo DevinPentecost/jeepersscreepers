@@ -21,9 +21,27 @@ function getTowerMemory(tower) {
 
 	//Does it have tower memory?
 	var towerMemories = roomMemory.towerMemories
+	if (!(towerMemories in roomMemory)) {
+		//Room has no tower memories!
+		roomMemory.towerMemories = {}
+	}
+
 
 	//And get the memory for that specific tower
+	if (!(tower.id in towerMemories)){
+		//Tower does not have memory yet
+		var newTowerMemory = {
+			healTarget: null,
+			attackTarget: null,
+		};
+		towerMemories[tower.id] = towerMemory
+	}
+
+	//We can get and return the memory
 	var towerMemory = towerMemories[tower.id];
+	
+	//Return it
+	return towerMemory	
 }
 
 function setTowerMemory(tower, towerMemory) {
