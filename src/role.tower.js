@@ -14,7 +14,7 @@ var roleTower = {
 
 function healTargetStructure(tower) {
 	//The tower should have a target in it's memory
-	var target = tower.healTarget;
+	var target = tower.memory.healTarget;
 
 	//Does it have one?
 	if (target) {
@@ -23,11 +23,11 @@ function healTargetStructure(tower) {
 
 		//Is it healed up?
 		if (target.hits > target.hitsMax * HEAL_UPPER_LIMIT) {
-			tower.healTarget = null;
+			tower.memory.healTarget = null;
 		}
 	} else {
 		//See if something needs healing
-		tower.healTarget = findNearestDamagedStructure(tower);
+		tower.memory.healTarget = findNearestDamagedStructure(tower);
 	}
 }
 
@@ -43,7 +43,7 @@ function findNearestDamagedStructure(tower) {
 
 function attackTargetHostile(tower) {
 	//The tower should have a target in it's memory
-	var target = tower.attackTarget;
+	var target = tower.memory.attackTarget;
 
 	//Does it have one?
 	if (target) {
@@ -53,11 +53,11 @@ function attackTargetHostile(tower) {
 		//Can it attack?
 		if (attackResult != OK) {
 			//We need to stop attacking this target
-			tower.attackTarget = null;
+			tower.memory.attackTarget = null;
 		}
 	} else {
 		//See if something needs healing
-		tower.attackTarget = findNearestAttackTarget(tower);
+		tower.memory.attackTarget = findNearestAttackTarget(tower);
 	}
 }
 
