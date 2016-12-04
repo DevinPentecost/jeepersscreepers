@@ -3,35 +3,57 @@ var roleTower = {
 	/** @param {Creep} creep **/
 	run: function (tower) {
 		//First we try to heal
-		healNearestStructure(tower);
+		healTargetStructure(tower);
 
 		//Next we defend
-		attackClosestHostile(tower);
+		attackTargetHostile(tower);
 	}
 };
 
-function healNearestStructure(tower) {
-	//Find the closest critically damaged structure
+function healTargetStructure(tower) {
+	//The tower should have a target in it's memory
+	var target = tower.healTarget;
+
+	//Does it have one?
+	if (target) {
+		//Heal it
+		tower.repair(target);
+	} else {
+		//See if something needs healing
+		tower.healTarget = findNearestDamagedStructure(tower);
+	}
+}
+
+function findNearestDamagedStructure(tower) {
+	//Look for them, ignoring walls
 	var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
 		filter: (structure) => (structure.hits < structure.hitsMax / 3) && (structure.structureType != STRUCTURE_WALL)
 	});
 
-	//Did we find anything?
-	if (closestDamagedStructure) {
-		//Launch a heal beam
-		tower.repair(closestDamagedStructure);
+	//Return that
+	return closestDamagedStructure;
+}
+
+function attackTargetHostile(tower) {
+	//The tower should have a target in it's memory
+	var target = tower.attackTarget;
+
+	//Does it have one?
+	if (target) {
+		//Heal it
+		tower.attack(target);
+	} else {
+		//See if something needs healing
+		tower.attackTarget = findNearestAttackTarget(tower);
 	}
 }
 
-function attackClosestHostile(tower) {
-	//Find the closest critically damaged structure
+function findNearestAttackTarget(tower) {
+	//Look for them, ignoring walls
 	var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
 
-	//Did we find anything?
-	if (closestHostile) {
-		//Launch a heal beam
-		tower.attack(closestHostile);
-	}
+	//Return that
+	return closestHostile;
 }
 
 module.exports = roleTower;
