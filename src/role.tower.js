@@ -1,3 +1,5 @@
+var HEAL_UPPER_LIMIT = .3
+
 var roleTower = {
 
 	/** @param {Creep} creep **/
@@ -18,6 +20,11 @@ function healTargetStructure(tower) {
 	if (target) {
 		//Heal it
 		tower.repair(target);
+
+		//Is it healed up?
+		if (target.hits > target.hitsMax * HEAL_UPPER_LIMIT) {
+			tower.healTarget = null;
+		}
 	} else {
 		//See if something needs healing
 		tower.healTarget = findNearestDamagedStructure(tower);
@@ -40,8 +47,14 @@ function attackTargetHostile(tower) {
 
 	//Does it have one?
 	if (target) {
-		//Heal it
-		tower.attack(target);
+		//Attack it
+		var attackResult = tower.attack(target);
+
+		//Can it attack?
+		if (attackResult != OK) {
+			//We need to stop attacking this target
+			tower.attackTarget = null;
+		}
 	} else {
 		//See if something needs healing
 		tower.attackTarget = findNearestAttackTarget(tower);
