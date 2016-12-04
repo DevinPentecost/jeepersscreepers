@@ -31,11 +31,13 @@ var roleBuilder = {
                 if(creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
                     creep.moveTo(container);
                 }
-            }else{
+            } else {
+				/**
                 var sources = creep.room.find(FIND_SOURCES);
                 if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
                    creep.moveTo(sources[0]);
                 }
+				**/
             }
 	        
 	    }
