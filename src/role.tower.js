@@ -12,22 +12,52 @@ var roleTower = {
 	}
 };
 
+function getTowerMemory(tower) {
+	//Get the room for the tower
+	var towerRoom = tower.room;
+
+	//Get the memory from the room
+	var roomMemory = towerRoom.memory
+
+	//Does it have tower memory?
+	var towerMemories = roomMemory.towerMemories
+
+	//And get the memory for that specific tower
+	var towerMemory = towerMemories[tower.id];
+}
+
+function setTowerMemory(tower, towerMemory) {
+	//Get the room for the tower
+	var towerRoom = tower.room;
+
+	//Get the memory from the room
+	var roomMemory = towerRoom.memory
+
+	//Set the memory for this tower
+	roomMemory.towerMemories[tower.id] = towerMemory
+}
+
 function healTargetStructure(tower) {
 	//The tower should have a target in it's memory
-	var target = tower.memory.healTarget;
+	var towerMemory = getTowerMemory(tower);
+	var healTarget = towerMemory.healTarget;
 
 	//Does it have one?
-	if (target) {
+	if (healTarget) {
 		//Heal it
-		tower.repair(target);
+		tower.repair(healTarget);
 
 		//Is it healed up?
-		if (target.hits > target.hitsMax * HEAL_UPPER_LIMIT) {
-			tower.memory.healTarget = null;
+		if (healTarget.hits > healTarget.hitsMax * HEAL_UPPER_LIMIT) {
+			//Set the memory to have no heal target
+			towerMemory.healTarget = null;
+			setTowerMemory(tower, towerMemory);
+
 		}
 	} else {
 		//See if something needs healing
-		tower.memory.healTarget = findNearestDamagedStructure(tower);
+		towerMemory.healTarget = findNearestDamagedStructure(tower);
+		setTowerMemory(tower, towerMemory);
 	}
 }
 
@@ -43,21 +73,24 @@ function findNearestDamagedStructure(tower) {
 
 function attackTargetHostile(tower) {
 	//The tower should have a target in it's memory
-	var target = tower.memory.attackTarget;
+	var towerMemory = getTowerMemory(tower);
+	var attackTarget = towerMemory.attackTarget;
 
 	//Does it have one?
-	if (target) {
+	if (attackTarget) {
 		//Attack it
 		var attackResult = tower.attack(target);
 
 		//Can it attack?
 		if (attackResult != OK) {
 			//We need to stop attacking this target
-			tower.memory.attackTarget = null;
+			towerMemory.attackTarget = null;
+			setTowerMemory(tower, towerMemory);
 		}
 	} else {
 		//See if something needs healing
-		tower.memory.attackTarget = findNearestAttackTarget(tower);
+		towerMemory.attackTarget = findNearestAttackTarget(tower);
+		setTowerMemory(tower, towerMemory);
 	}
 }
 
