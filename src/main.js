@@ -5,13 +5,10 @@ var roleSpawner = require('role.spawner');
 var roleRepairer = require('role.repairer');
 
 module.exports.loop = function () {
-    
-    for(var i in Memory.creeps) {
-        if(!Game.creeps[i]) {
-            delete Memory.creeps[i];
-        }
-    }
 
+	//First clean up memory
+	cleanUpDeadCreepMemory();
+    
     var tower = Game.getObjectById('bd05d106b72310b59b08c205');
     if(tower) {
         var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
@@ -28,9 +25,10 @@ module.exports.loop = function () {
     }
 
     for(var name in Game.creeps) {
-        var creep = Game.creeps[name];
+    	var creep = Game.creeps[name];
+		
         if(creep.memory.role == 'harvester') {
-            roleHarvester.run(creep);
+        	roleHarvester.run(creep);
         }
         if(creep.memory.role == 'upgrader') {
             roleUpgrader.run(creep);
@@ -48,5 +46,17 @@ module.exports.loop = function () {
         if(spawn.memory.role == 'spawner'){
             roleSpawner.run(spawn);
         }
+    }
+
+
+    function cleanUpDeadCreepMemory() {
+		//Go through each creep in the memory
+    	for (var creepId in Memory.creeps) {
+			//Does it exist in the game world?
+    		if (!Game.creeps[creepId]) {
+				//We need to remove it from the memory
+    			delete Memory.creeps[creepId];
+			}
+		}
     }
 }
