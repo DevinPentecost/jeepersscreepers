@@ -1,4 +1,11 @@
+//Constants
+ROLE_UPGRADER = "upgrader";
+
+
 var roleUpgrader = {
+
+	//It has a role value
+	role: ROLE_UPGRADER,
 
     /** @param {Creep} creep **/
     run: function(creep) {
