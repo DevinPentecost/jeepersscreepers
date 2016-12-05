@@ -20,19 +20,21 @@ var memoryHarvester = {
 
 		//It needs to not be included in the resource count
 		var sourceId = Memory.creeps[creepName].targetResourceId;
-		console.log(creepName + " " + sourceId)
 
 		//Get it's room's memory
 		var source = Game.getObjectById(sourceId);
-		var roomMemory = memoryRoom.getRoomMemory(source.room.name);
+		if (source) {
+			//Get that source's room
+			var roomMemory = memoryRoom.getRoomMemory(source.room.name);
 
-		//Remove it from the list
-		var harvesters = roomMemory.sources[sourceId].assignedHarvesters;
-		var harvesterIndex = harvesters.indexOf(creepName)
-		console.log("BEFOR HARVE" + harvesters)
-		harvesters.splice(harvesterIndex, 1);
-		console.log("AFTER HARVE" + harvesters)
-		console.log("DOUB VHEC" + roomMemory.sources[sourceId].assignedHarvesters);
+			//Remove it from the list
+			var harvesters = roomMemory.sources[sourceId].assignedHarvesters;
+			var harvesterIndex = harvesters.indexOf(creepName)
+			console.log("BEFOR HARVE" + harvesters)
+			harvesters.splice(harvesterIndex, 1);
+			console.log("AFTER HARVE" + harvesters)
+			console.log("DOUB VHEC" + roomMemory.sources[sourceId].assignedHarvesters);
+		}
 
 		//Finally remove it from memory
 		delete Memory.creeps[creepName];
