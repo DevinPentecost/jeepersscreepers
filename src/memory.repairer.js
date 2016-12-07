@@ -6,6 +6,8 @@ var memoryRepairer = {
 		//We want to create a memory block
 		var memory = {
 			role: ROLE_REPAIRER,
+			repairing: false,
+			targetId: null,
 		}
 
 		//Return that memory

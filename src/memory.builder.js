@@ -1,7 +1,7 @@
-﻿//Memory for each harvester
+//Memory for each builder
 var memoryBuilder = {
 
-	//Prototype for a harvester's memory
+	//Prototype for a builder's memory
 	memoryPrototype: function () {
 		//We want to create a memory block
 		var memory = {

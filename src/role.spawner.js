@@ -27,9 +27,9 @@ END IMPORTS
 
 //What is the minimum creeps per resource in this room?
 var MINIMUM_HARVESTERS_PER_RESOURCE = 1;
-var MINIMUM_UPGRADERS_PER_ROOM = 1;
+var MINIMUM_UPGRADERS_PER_ROOM = 2;
 var MINIMUM_BUILDERS_PER_ROOM = 2;
-var MINIMUM_REPAIRERS_PER_ROOM = 2;
+var MINIMUM_REPAIRERS_PER_ROOM = 1;
 
 //Constants
 ROLE_SPAWNER = "spawner";
@@ -84,8 +84,7 @@ var roleSpawner = {
             //Enough upgraders?
             if(MINIMUM_UPGRADERS_PER_ROOM > totalUpgraders){
                 //Make one
-                console.log("Need a Upgrader");
-                newCreep = spawner.createCreep([MOVE, WORK, CARRY], {role: "upgrader"});
+                roleSpawner.spawnUpgrader(spawner);
             }
             
             //Enough builders?
@@ -151,6 +150,18 @@ var roleSpawner = {
 
 		//Attempt to make it
 		newCreep = spawner.createCreep(builderParts, builderMemory);
+	},
+
+	spawnUpgrader: function (spawner) {
+		//We need to create one
+		console.log("Need an Upgrader!");
+
+		//Get the memory and parts
+		upgraderParts = roleUpgrader.basicUpgraderParts;
+		upgraderMemory = memoryUpgrader.memoryPrototype();
+
+		//Attempt to make it
+		newCreep = spawner.createCreep(upgraderParts, upgraderMemory);
 	}
 };
 

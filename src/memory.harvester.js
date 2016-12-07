@@ -30,10 +30,7 @@ var memoryHarvester = {
 			//Remove it from the list
 			var harvesters = roomMemory.sources[sourceId].assignedHarvesters;
 			var harvesterIndex = harvesters.indexOf(creepName)
-			console.log("BEFOR HARVE" + harvesters)
 			harvesters.splice(harvesterIndex, 1);
-			console.log("AFTER HARVE" + harvesters)
-			console.log("DOUB VHEC" + roomMemory.sources[sourceId].assignedHarvesters);
 		}
 
 		//Finally remove it from memory

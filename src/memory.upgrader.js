@@ -6,6 +6,8 @@ var memoryUpgrader = {
 		//We want to create a memory block
 		var memory = {
 			role: ROLE_UPGRADER,
+			upgrading: false,
+			targetId: null,
 		}
 
 		//Return that memory

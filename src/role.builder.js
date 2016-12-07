@@ -7,7 +7,7 @@ var roleBuilder = {
 	//It has a role value
 	role: ROLE_BUILDER,
 
-	//What are the types of harvester we'll make?
+	//What are the types of builder we'll make?
 	basicBuilderParts: [MOVE, WORK, CARRY, CARRY],
 
     /** @param {Creep} creep **/
@@ -30,7 +30,6 @@ var roleBuilder = {
 			}
 
 			//Are we out of energy now?
-			console.log(creep.carry.energy);
 			if (creep.carry.energy == 0) {
 				//We can't build. Go look for food...
 				beginHarvesting(creep);
@@ -40,9 +39,9 @@ var roleBuilder = {
 
 			//Are we full on resources?
 			if (creep.carry.energy < creep.carryCapacity) {
+
 				//Do we have a target?
 				var target = Game.getObjectById(creep.memory.targetId)
-				console.log(target);
 				if (target) {
 					//We can move and collect
 					if (creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
@@ -71,7 +70,7 @@ var beginHarvesting = function (creep) {
 	var targetId = findWithdrawTargetId(creep);
 
 	//Save that
-	creep.memory.targetId;
+	creep.memory.targetId = targetId;
 }
 
 var beginBuilding = function (creep) {
