@@ -1,3 +1,4 @@
+//Constants
 var HEAL_UPPER_LIMIT = .3
 
 var roleTower = {

@@ -1,4 +1,5 @@
-﻿var memorySource = require('memory.source')
+﻿//Imports
+var memorySource = require('memory.source')
 
 //How often to recalculate routes, in ticks
 var TABULATE_FREQUENCY = 5000;

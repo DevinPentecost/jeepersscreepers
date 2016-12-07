@@ -1,4 +1,5 @@
-﻿var memoryRoom = require('memory.room');
+﻿//Import room memory
+var memoryRoom = require('memory.room');
 
 //Memory for each harvester
 var memoryHarvester = {
