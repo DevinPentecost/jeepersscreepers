@@ -36,6 +36,9 @@ module.exports.loop = function () {
 	//First clean up memory
 	cleanUpDeadCreepMemory();
 
+	//Then get the rooms under control
+	handleRooms();
+
 	//Handle all structures
 	handleStructures();
 
@@ -53,6 +56,14 @@ function cleanUpDeadCreepMemory() {
 			var creepMemoryHandler = getCreepMemoryHandler(creepMemory);
 			creepMemoryHandler.destroy(creepName);
 		}
+	}
+}
+
+function handleRooms() {
+	//Get all the rooms
+	for (let roomName in Memory.rooms) {
+		//Act accordingly
+		roleRoom.run(roomName);
 	}
 }
 
